@@ -4,11 +4,7 @@ import java.security.*;
 import java.text.*;
 import java.util.*;
 import java.util.concurrent.*;
-import java.util.function.*;
 import java.util.regex.*;
-import java.util.stream.*;
-import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.toList;
 
 class Result {
 
@@ -19,13 +15,43 @@ class Result {
      * The function accepts STRING s as parameter.
      */
 
+static boolean ispalindromme(String k,int left,int right){
+    while(left<right){
+        if(k.charAt(left)!=k.charAt(right)){
+            return false;
+            
+        }
+        left++;
+        right--;
+    }
+    return true;
+    
+}
     public static int palindromeIndex(String s) {
     // Write your code here
-
+   int lastIndex=s.length()-1;
+   int firstIndex=0;
+   
+   while(lastIndex>firstIndex){
+    if(s.charAt(firstIndex)==s.charAt(lastIndex)){
+        lastIndex--;
+        firstIndex++;
+    }
+    else{
+        if(ispalindromme(s,firstIndex+1,lastIndex)){
+            return firstIndex;
+        }
+        else if(ispalindromme(s,firstIndex,lastIndex-1)){
+           
+            return lastIndex;
+        }
     }
 
+   }
+       
+    return -1;
+    }
 }
-
 public class Solution {
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
@@ -33,18 +59,14 @@ public class Solution {
 
         int q = Integer.parseInt(bufferedReader.readLine().trim());
 
-        IntStream.range(0, q).forEach(qItr -> {
-            try {
-                String s = bufferedReader.readLine();
+        for (int qItr = 0; qItr < q; qItr++) {
+            String s = bufferedReader.readLine();
 
-                int result = Result.palindromeIndex(s);
+            int result = Result.palindromeIndex(s);
 
-                bufferedWriter.write(String.valueOf(result));
-                bufferedWriter.newLine();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-        });
+            bufferedWriter.write(String.valueOf(result));
+            bufferedWriter.newLine();
+        }
 
         bufferedReader.close();
         bufferedWriter.close();
